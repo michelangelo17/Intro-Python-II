@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -21,7 +21,6 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
-
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -36,15 +35,28 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-
+print(room['outside'])
 # Make a new player object that is currently in the 'outside' room.
+player1 = Player(room['outside'])
 
 # Write a loop that:
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
-#
+print('READY PLAYER ONE\n\n\nWelcome to the adventure game!\n\n\nPress "n" to go North, "e" to go East, "s" to go South, or "w" to go West!\n\n\n')
+while True:
+    print(player1.location.name)
+    print(player1.location.description)
+    command = input('--->  ')
+    if command == 'q':
+        print('Goodbye!')
+        exit()
+    try:
+        player1.move(command)
+    except:
+        print('Please enter only n, e, s, w or q. All other inputs unrecognised!')
+
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
