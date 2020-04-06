@@ -4,7 +4,7 @@ import textwrap
 
 
 class Room:
-    def __init__(self, name, description, items=None):
+    def __init__(self, name, description, items=None, is_light=False):
         self.name = name
         self.description = description
         self.n_to = None
@@ -15,6 +15,7 @@ class Room:
             self.items = []
         else:
             self.items = items
+        self.is_light = is_light
 
     def print_room(self):
         wrapper = textwrap.TextWrapper(width=80)
@@ -24,11 +25,14 @@ class Room:
             print(s)
         print('\n')
 
-    def print_items(self):
-        if len(self.items) >= 1:
-            print(f'The {self.name.lower()} contains:')
-            for i in self.items:
-                print(i.name)
-            print('\n')
+    def print_items(self, light=False):
+        if self.is_light == True or light == True:
+            if len(self.items) >= 1:
+                print(f'The {self.name.lower()} contains:')
+                for i in self.items:
+                    print(i.name)
+                print('\n')
+            else:
+                print(f'The {self.name.lower()} is empty\n')
         else:
-            print(f'The {self.name.lower()} is empty\n')
+            print('The room is pitch black!')

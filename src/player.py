@@ -1,5 +1,6 @@
 # Write a class to hold player information, e.g. what room they are in
 # currently.
+from item import LightSource
 
 
 class Player:
@@ -11,33 +12,45 @@ class Player:
         else:
             self.items = items
 
+    def has_light(self):
+        if self.current_room.is_light:
+            return True
+        for i in self.items:
+            if isinstance(i, LightSource):
+                return True
+        else:
+            return False
+
     def move(self, dir):
         if getattr(self.current_room, f'{dir}_to'):
             self.current_room = getattr(self.current_room, f'{dir}_to')
             print('\nMove to:')
             self.current_room.print_room()
-            self.current_room.print_items()
+            self.current_room.print_items(self.has_light())
         else:
             print('\nNo path lies that direction.\n')
 
     def take(self, item):
-        for i in self.current_room.items:
-            if i.name == item:
-                self.items.append(i)
-                self.current_room.items.remove(i)
-                i.on_take()
-                self.current_room.print_items()
-                break
+        if self.has_light():
+            for i in self.current_room.items:
+                if i.name == item:
+                    self.items.append(i)
+                    self.current_room.items.remove(i)
+                    i.on_take()
+                    self.current_room.print_items(self.has_light())
+                    break
+            else:
+                print(f'There is no {item} in the {self.current_room.name}\n')
         else:
-            print(f'There is no {item} in the {self.current_room.name}\n')
+            print('Good luck finding that in the dark!')
 
     def drop(self, item):
         for i in self.items:
             if i.name == item:
+                i.on_drop()
                 self.items.remove(i)
                 self.current_room.items.append(i)
-                i.on_drop()
-                self.current_room.print_items()
+                self.current_room.print_items(self.has_light())
                 break
         else:
             print(f'You do not have {item} in your inventory.\n')

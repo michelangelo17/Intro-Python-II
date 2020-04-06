@@ -1,12 +1,13 @@
 from room import Room
 from player import Player
-from item import Item
+from item import Item, LightSource
 # Declare all the items
 item = {
     'sword': Item('sword', 'an average looking sword'),
     'lettuce': Item('lettuce', 'fresh lettuce'),
     'axe': Item('axe', 'a typical wood axe'),
-    'coins': Item('coins', 'coins from the old kingdom')
+    'coins': Item('coins', 'coins from the old kingdom'),
+    'lamp': LightSource('lamp', 'an oil lamp to light your way'),
 }
 
 # Declare all the rooms
@@ -14,17 +15,20 @@ item = {
 room = {
     'outside':  Room('Outside Cave Entrance',
                      'North of you, the cave mount beckons',
-                     [item['sword'], item['lettuce']]),
+                     [item['sword'], item['lamp']],
+                     True),
 
     'foyer':    Room('Foyer',
-                     'Dim light filters in from the south. Dusty passages run north and east.',),
+                     'Dim light filters in from the south. Dusty passages run north and east.'),
 
     'overlook': Room('Grand Overlook',
                      'A steep cliff appears before you, falling into the darkness. Ahead to the north, a light flickers in the distance, but there is no way across the chasm.',
-                     [item['coins']]),
+                     [item['coins']],
+                     True),
 
     'narrow':   Room('Narrow Passage',
-                     'The narrow passage bends here from west to north. The smell of gold permeates the air.'),
+                     'The narrow passage bends here from west to north. The smell of gold permeates the air.',
+                     [item['lettuce']]),
 
     'treasure': Room('Treasure Chamber',
                      'You\'ve found the long-lost treasure chamber! Sadly, it has already been completely emptied by earlier adventurers. The only exit is to the south.',
